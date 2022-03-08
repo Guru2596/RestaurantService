@@ -19,6 +19,7 @@ import java.util.List;
 import java.util.Optional;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertThrows;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.*;
 
@@ -56,6 +57,14 @@ public class RestaurantServiceTest {
         when(restaurantRepository.save(any())).thenReturn(restaurant1);
         assertEquals(restaurant1,restaurantService.uploadRestaurantToDb(restaurant1));
         verify(restaurantRepository,times(1)).save(any());
+        verify(restaurantRepository,times(1)).findById(any());
+    }
+
+    @Test
+    public void givenRestaurantToSaveReturnRestaurantFailure(){
+        when(restaurantRepository.findById(restaurant1.getRestaurantId())).thenReturn(Optional.ofNullable(restaurant1));
+        assertThrows(RestaurantAlreadyExistsException.class,()->restaurantService.uploadRestaurantToDb(restaurant1));
+        verify(restaurantRepository,times(0)).save(any());
         verify(restaurantRepository,times(1)).findById(any());
     }
 }
