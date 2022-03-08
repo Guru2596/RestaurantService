@@ -6,10 +6,7 @@ import com.niit.model.Restaurant;
 import java.util.List;
 
 public interface RestaurantService {
-
-     Restaurant addRestaurantToDb(Restaurant restaurant) throws RestaurantAlreadyExistsException;
-
-//     String deleteRestaurant(int id) throws RestaurantNotfoundException;
-
-     List<Restaurant> viewRestaurants() throws RestaurantNotfoundException;
+     Restaurant uploadRestaurantToDb(Restaurant restaurant) throws RestaurantAlreadyExistsException;
+     boolean deleteRestaurant(int id) throws RestaurantNotfoundException;
+     List<Restaurant> getListOfRestaurants();
 }
