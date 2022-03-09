@@ -43,7 +43,7 @@ public class RestaurantControllerTest {
     RestaurantAddress restaurantAddress1, restaurantAddress2;
 
     Dish dish1 = new Dish(1,"Idly","veg",40);
-    Dish dish2 = new Dish(1,"Idly","veg",40);
+    Dish dish2 = new Dish(2,"Idly","veg",40);
 
     @InjectMocks
     private RestaurantController restaurantController;
@@ -69,6 +69,17 @@ public class RestaurantControllerTest {
                 .content(jsonToString(restaurant1)))
                 .andExpect(status().isOk()).andDo(MockMvcResultHandlers.print());
         verify(restaurantService,times(1)).uploadRestaurantToDb(any());
+    }
+
+    @Test
+    public void givenProductCodeDeleteProduct() throws Exception {
+        when(restaurantService.deleteRestaurant(anyInt())).thenReturn(true);
+        mockMvc.perform(delete("/api/v1/delete-restaurant/1")
+                        .contentType(MediaType.APPLICATION_JSON))
+                .andExpect(status().isOk())
+                .andDo(MockMvcResultHandlers.print());
+        verify(restaurantService, times(1)).deleteRestaurant(anyInt());
+
     }
 
     private static String jsonToString(final Object ob) throws JsonProcessingException {
